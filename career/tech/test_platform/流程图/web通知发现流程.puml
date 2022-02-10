@@ -1,0 +1,21 @@
+@startuml
+
+skinparam ConditionEndStyle hline
+
+|user|用户
+
+start
+
+:master合并或者打tag;
+
+|git|仓库
+:触发webhook;
+
+|service|平台服务
+if(Master分支 or tag满足形式:分支名-时刻) then (满足)
+else(不满足)
+    stop
+endif
+:数据库插入一条待同步的数据;
+:更新用例;
+@enduml

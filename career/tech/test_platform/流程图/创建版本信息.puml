@@ -1,0 +1,25 @@
+@startuml
+
+skinparam ConditionEndStyle hline
+
+|user|用户
+
+start
+
+:创建版本信息;  
+|service|平台服务
+if (DB是否已存在版本信息) then(存在)
+    :接口提示已存在;
+    stop
+else(不存在)
+endif
+:git根据参数获取版本信息;
+if (是否获取成功) then(否)
+    :接口提示git不存在该版本;
+    stop
+else(是)
+endif
+:DB创建待同步版本信息;
+:用例更新;
+stop
+@enduml

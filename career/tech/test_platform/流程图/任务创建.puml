@@ -1,0 +1,36 @@
+@startuml
+
+skinparam ConditionEndStyle hline
+
+|user|用户
+
+start
+
+:创建任务接口请求;  
+|service|平台服务
+if (用例版本在DB是否存在) then (不存在)
+    :接口提示找不到用例版本信息;
+    stop
+else (存在)
+endif
+if(用例版本与当前仓库版本是否一致) then(不一致)
+    :同步用例版本的仓库代码;
+else (一致)
+endif
+if(是否有线上数据) then(有)
+    if(传入数据的变量是否为online_verify.yaml的子集) then(不是)
+        stop
+    else (是)
+    endif
+else(没有)
+endif
+:创建数据库记录;
+if(环境参数是否存在) then(不存在)
+    :报错;
+    stop
+else (存在)
+endif
+:创建异步任务进入任务队列;
+:数据库记录异步任务信息;
+stop
+@enduml

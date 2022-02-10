@@ -1,0 +1,30 @@
+@startuml
+
+skinparam ConditionEndStyle hline
+
+|service|平台服务
+start
+:异步任务执行开始;
+:获取任务信息;
+:根据用例类型初始化执行器;
+if(是否存在版本目标文件) then(不存在)
+    :编译目标文件;
+else(有)
+endif
+if (执行用例) then(执行目标为单条用例)
+    :获取执行对象;
+    :根据策略执行;
+else (执行目标为路径)
+    :根据目录执行;
+endif
+if (用例运行是否成功) then(失败)
+    :更新任务状态;
+else (成功)
+    if(执行目标类型) then(路径)
+        :测试结果生成统一文档格式保存;
+    else(单条用例)  
+    endif
+:更新任务状态为成功;
+endif
+stop
+@enduml

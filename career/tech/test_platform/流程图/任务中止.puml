@@ -1,0 +1,24 @@
+@startuml
+
+skinparam ConditionEndStyle hline
+
+|user|用户
+
+start
+
+:任务中止请求;  
+|service|平台服务
+:获取任务进程信息;
+if(任务是否为终态) then(不是)
+else (是)
+    :返回任务已停止;
+    stop
+endif
+:发送停止命令;
+if(查看任务进程是否存在) then (不存在)
+    :更新任务为停止;
+else(存在)
+    :返回停止失败;
+endif
+stop
+@enduml

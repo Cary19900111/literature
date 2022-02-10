@@ -1,0 +1,16 @@
+@startuml
+
+skinparam ConditionEndStyle hline
+
+|service|平台服务
+start
+:获取执行目标;
+:创建单个客户端基准测试;
+:记录请求时间和请求次数;
+:1000/(time(ms)/count)估算实际吞吐量t_cur;
+:获取入参的吞吐量t_in;
+:总的客户端数量c=(t_in/t_cur),向上取整;
+:计算等待时间wait=((1/t_in)-(1/c*t_cur))*c;
+:启动线程(c,wait);
+stop
+@enduml

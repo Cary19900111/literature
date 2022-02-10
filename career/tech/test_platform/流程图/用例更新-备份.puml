@@ -1,0 +1,34 @@
+@startuml
+
+skinparam ConditionEndStyle hline
+
+|user|用户
+
+start
+
+:master合并或者打tag;
+
+|git|仓库
+:触发webhook;
+
+|service|平台服务
+if(Master分支 or tag满足形式:分支名-时刻) then (满足)
+else(不满足)
+    stop
+endif
+:数据库插入一条待同步的数据;
+:拉取仓库代码;
+:扫描仓库用例信息 repocase;
+:获取数据库用例信息 dbcase;
+if(用例差异化对比) then (repocase - (repocase ∩ dbcase))
+    :增加用例;
+else (dbcase - (repocase ∩ dbcase))
+    :减少用例;
+endif
+if(执行对象需要编译) then (需要编译)
+    :根据语言类型编译成目标文件(commit号命名);
+else (不需要编译)
+endif
+:数据库同步用例记录改为完成状态;
+stop
+@enduml
