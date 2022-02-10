@@ -1,0 +1,8 @@
+@startuml
+start
+repeat:
+:111;
+:222;
+repeat while(more data?)
+stop
+@enduml
